@@ -18,7 +18,6 @@ export default class Quiz {
      * @param {*} answer 
      */
     guess(answer) {
-        console.log(answer);
         if (this.getCurrentQuestion().isCorrectAnswer(answer)) {
             this.score++;
         }
@@ -29,7 +28,6 @@ export default class Quiz {
      * @returns {Boolean}
      */
     isFinished() {
-        console.log(this.currentQuestionIndex,this.questions.length);
         return this.currentQuestionIndex >= this.questions.length;
     }
 }

@@ -7,7 +7,7 @@ export default class Question {
 
     /**
      * Retourne true si la réponse est correct
-     * @param {*} choice 
+     * @param {*} choice Choix fait par l'utilisateur
      * @returns {Boolean}
      */
     isCorrectAnswer(choice) {

@@ -1,8 +1,10 @@
 const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
+
+import Quiz from './quiz.js';
+import questions from './datas/questionsData.js';
 
 const display = {
-    quiz: null,
+    quiz: new Quiz(questions),
     /**
      * Met à jour le contenu HTML d'un élément à l'aide de son sélecteur
      * @param {String} id Sélecteur de l'élément
@@ -18,9 +20,9 @@ const display = {
         if (this.quiz.isFinished()) {
             this.endQuiz();
         } else {
-            this.question(quiz);
-            this.choices(quiz);
-            this.progress(quiz);
+            this.question();
+            this.choices();
+            this.progress();
         }
     },
     /**
@@ -31,7 +33,7 @@ const display = {
             <h1>Quiz terminé !</h1>
             <h3>Votre score est de : ${this.quiz.score} / ${this.quiz.questions.length}</h3>
         `;
-        this.elementShown('#question', endQuizHTML);
+        this.elementShown('#quiz', endQuizHTML);
     },
     /**
      * Affiche la question actuelle du quizz
@@ -39,6 +41,11 @@ const display = {
     question: function () {
         this.elementShown('#question', this.quiz.getCurrentQuestion().text + ' ?');
     },
+    /**
+     * Déclare un écouter qui s'active lorsque l'utilisateur sélectionne une réponse
+     * @param {String} id Sélecteur de la réponse
+     * @param {String} guess Choix fait par l'utilisateur
+     */
     guessHandler: function(id, guess) {
         $(id).onclick = () => {
             this.quiz.guess(guess);
@@ -46,7 +53,7 @@ const display = {
         };
     },
     /**
-     *
+     * Affiche les différentes réponses possibles (et créer un écouteur pour écouter la réponse)
      */
     choices: function () {
         let choices = this.quiz.getCurrentQuestion().choices;
@@ -55,6 +62,9 @@ const display = {
             this.guessHandler('#guess' + key, choice);
         }
     },
+    /**
+     * Affiche un message pour indiquer la progression du quizz
+     */
     progress: function () {
         let currentQuestionNumber = this.quiz.currentQuestionIndex + 1;
         this.elementShown('#progress', `Question ${currentQuestionNumber} sur ${this.quiz.questions.length}`);
