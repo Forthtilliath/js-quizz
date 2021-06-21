@@ -49,7 +49,7 @@ const apiSettings = {
     type      : 'multiple',   // multiple or boolean
 };
 
-const questionsLoaded = () => {
+const loadQuestions = () => {
     let link = `https://opentdb.com/api.php?amount=${apiSettings.amount}`;
     link += apiSettings.category == 'any' ? '' : `&category=${apiSettings.category}`;
     link += apiSettings.difficulty == 'any' ? '' : `&difficulty=${apiSettings.difficulty}`;
@@ -69,8 +69,9 @@ const questionsLoaded = () => {
                 );
             });
             return tabQuestions;
-        })
+        });
 };
 
 // export default questionsData;
-export default questionsLoaded;
+// export default questionsLoaded;
+export { questionsData, loadQuestions };
