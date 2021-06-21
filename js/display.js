@@ -1,8 +1,8 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
-import Quiz from './quiz.js';
 
 const display = {
+    quiz: null,
     /**
      * Met à jour le contenu HTML d'un élément à l'aide de son sélecteur
      * @param {String} id Sélecteur de l'élément
@@ -13,10 +13,9 @@ const display = {
     },
     /**
      * Gère le déroulement du quizz
-     * @param {Quiz} quiz
      */
-    quizApp: function (quiz) {
-        if (quiz.isFinished()) {
+    quizApp: function () {
+        if (this.quiz.isFinished()) {
             this.endQuiz();
         } else {
             this.question(quiz);
@@ -30,61 +29,35 @@ const display = {
     endQuiz: function () {
         let endQuizHTML = `
             <h1>Quiz terminé !</h1>
-            <h3>Votre score est de : ${quiz.score} / ${quiz.questions.length}</h3>
+            <h3>Votre score est de : ${this.quiz.score} / ${this.quiz.questions.length}</h3>
         `;
         this.elementShown('#question', endQuizHTML);
     },
     /**
      * Affiche la question actuelle du quizz
-     * @param {Quiz} quiz
      */
-    question: function (quiz) {
-        this.elementShown('#question', quiz.getCurrentQuestion().text + ' ?');
+    question: function () {
+        this.elementShown('#question', this.quiz.getCurrentQuestion().text + ' ?');
     },
-    guessHandler : (id, guess, quiz) => {
-        $(id).onclick = (quiz)=> {
-          quiz.guess(guess);
-          this.quizApp(quiz);
-        }
-      },
+    guessHandler: function(id, guess) {
+        $(id).onclick = () => {
+            this.quiz.guess(guess);
+            this.quizApp();
+        };
+    },
     /**
      *
-     * @param {Quiz} quiz
      */
-    choices: function (quiz) {
-        let choices = quiz.getCurrentQuestion().choices;
-        // const guessHandler = (id, guess) => {
-        //     let self = this;
-        //     $(id).addEventListener('click', function (e) {
-        //         console.log(e.target);
-        //         quiz.guess(guess);
-        //         self.quizApp(quiz);
-        //         this.removeEventListener('click');
-        //     });
-        // };
-        // const guessHandler = (id, guess) => {
-        //     let self = this;
-        //     $(id).addEventListener('click', function (e) {
-        //         console.log(e.target);
-        //         quiz.guess(guess);
-        //         self.quizApp(quiz);
-        //         this.removeEventListener('click');
-        //     });
-        // };
-        // const guessHandler = (id, guess, quiz) => {
-        //     $(id).onclick = (quiz)=> {
-        //       quiz.guess(guess);
-        //       this.quizApp(quiz);
-        //     }
-        //   }
+    choices: function () {
+        let choices = this.quiz.getCurrentQuestion().choices;
         for (let [key, choice] of choices.entries()) {
             this.elementShown('#choice' + key, choice);
-            this.guessHandler('#guess' + key, choice, quiz);
+            this.guessHandler('#guess' + key, choice);
         }
     },
-    progress: function (quiz) {
-        let currentQuestionNumber = quiz.currentQuestionIndex + 1;
-        this.elementShown('#progress', `Question ${currentQuestionNumber} sur ${quiz.questions.length}`);
+    progress: function () {
+        let currentQuestionNumber = this.quiz.currentQuestionIndex + 1;
+        this.elementShown('#progress', `Question ${currentQuestionNumber} sur ${this.quiz.questions.length}`);
     },
 };
 
