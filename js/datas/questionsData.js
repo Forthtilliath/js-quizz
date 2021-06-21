@@ -1,28 +1,40 @@
 import Question from '../question.js';
 
-const questionsData = [
+/**
+ * Retourne les questions enregistrées localement. Toutefois, l'ordre des questions
+ * est aléatoire ainsi que celui des réponses, afin de complexifier, très légèrement.
+ * @returns Liste des questions enregistrées localement
+ */
+const questionsData = () => new Promise((resolve) => resolve(shuffle([
     new Question(
         "Quelle méthode Javascript permet de filtrer les éléments d'un tableau",
-        ['indexOf()', 'map()', 'filter()', 'reduce()'],
+        shuffle(['indexOf()', 'map()', 'filter()', 'reduce()']),
         'filter()',
     ),
     new Question(
         'Quelle méthode Javascript permet de vérifier si un élément figure dans un tableau',
-        ['isNaN()', 'includes()', 'findIndex()', 'isOdd()'],
+        shuffle(['isNaN()', 'includes()', 'findIndex()', 'isOdd()']),
         'includes()',
     ),
     new Question(
         'Quelle méthode transforme du JSON en un objet Javascript ?',
-        ['JSON.parse()', 'JSON.stringify()', 'JSON.object()', 'JSON.toJS'],
+        shuffle(['JSON.parse()', 'JSON.stringify()', 'JSON.object()', 'JSON.toJS']),
         'JSON.parse()',
     ),
     new Question(
         "Quel objet Javascript permet d'arrondir à l'entier le plus proche",
-        ['Math.ceil()', 'Math.floor()', 'Math.round()', 'Math.random()'],
+        shuffle(['Math.ceil()', 'Math.floor()', 'Math.round()', 'Math.random()']),
         'Math.round()',
     ),
-];
+])));
 
+/**
+ * Mélange un tableau. Dans notre cas, par l'api nous avons la bonne réponse 
+ * séparée des mauvais, il est donc nécessaire de mélanger les réponses afin que 
+ * la bonne réponse ne soit pas toujours à la même place !
+ * @param {any} array 
+ * @returns 
+ */
 const shuffle = (array) => {
     let currentIndex = array.length,
         randomIndex;
@@ -72,6 +84,4 @@ const loadQuestions = () => {
         });
 };
 
-// export default questionsData;
-// export default questionsLoaded;
 export { questionsData, loadQuestions };
