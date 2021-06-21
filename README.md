@@ -1,6 +1,6 @@
 # Introduction
 
-Mini projet fait à la suite de cette vidéo : [Créer un jeu en pur Javascript](https://www.youtube.com/watch?v=U50RvnAIHhQ). Le but était de fait un QCM en javascript.
+Mini projet fait à la suite de cette vidéo : [Créer un quiz en Javascript (POO)](https://www.youtube.com/watch?v=_up9_k432lI). Le but était de fait un QCM en javascript.
 
 # Intérêts du projet
 
