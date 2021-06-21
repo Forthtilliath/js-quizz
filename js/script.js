@@ -1,3 +1,7 @@
 import display from './display.js';
+import Quiz from './quiz.js';
+import loadQuestions from './datas/questionsData.js';
 
-display.quizApp();
+loadQuestions()
+    .then((questions) => (display.quiz = new Quiz(questions)))
+    .then(() => display.quizApp());

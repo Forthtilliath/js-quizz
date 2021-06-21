@@ -1,10 +1,7 @@
 const $ = (selector) => document.querySelector(selector);
 
-import Quiz from './quiz.js';
-import questions from './datas/questionsData.js';
-
 const display = {
-    quiz: new Quiz(questions),
+    quiz: null,
     /**
      * Met à jour le contenu HTML d'un élément à l'aide de son sélecteur
      * @param {String} id Sélecteur de l'élément
@@ -39,14 +36,15 @@ const display = {
      * Affiche la question actuelle du quizz
      */
     question: function () {
-        this.elementShown('#question', this.quiz.getCurrentQuestion().text + ' ?');
+        // this.elementShown('#question', this.quiz.getCurrentQuestion().text + ' ?');
+        this.elementShown('#question', this.quiz.getCurrentQuestion().text);
     },
     /**
      * Déclare un écouter qui s'active lorsque l'utilisateur sélectionne une réponse
      * @param {String} id Sélecteur de la réponse
      * @param {String} guess Choix fait par l'utilisateur
      */
-    guessHandler: function(id, guess) {
+    guessHandler: function (id, guess) {
         $(id).onclick = () => {
             this.quiz.guess(guess);
             this.quizApp();

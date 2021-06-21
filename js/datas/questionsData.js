@@ -23,4 +23,54 @@ const questionsData = [
     ),
 ];
 
-export default questionsData;
+const shuffle = (array) => {
+    let currentIndex = array.length,
+        randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+};
+
+// https://opentdb.com/api_config.php
+// prettier-ignore
+const apiSettings = {
+    amount    : 20,           // 50 max
+    category  : 11,           // 9 à 32
+    difficulty: 'easy',       // easy, medium or hard
+    type      : 'multiple',   // multiple or boolean
+};
+
+const questionsLoaded = () => {
+    let link = `https://opentdb.com/api.php?amount=${apiSettings.amount}`;
+    link += apiSettings.category == 'any' ? '' : `&category=${apiSettings.category}`;
+    link += apiSettings.difficulty == 'any' ? '' : `&difficulty=${apiSettings.difficulty}`;
+    link += apiSettings.type == 'any' ? '' : `&type=${apiSettings.type}`;
+
+    return fetch(link)
+        .then((response) => response.json())
+        .then((questions) => {
+            let tabQuestions = [];
+            questions.results.map((question) => {
+                tabQuestions.push(
+                    new Question(
+                        question.question,
+                        shuffle([...question.incorrect_answers, question.correct_answer]),
+                        question.correct_answer,
+                    ),
+                );
+            });
+            return tabQuestions;
+        })
+};
+
+// export default questionsData;
+export default questionsLoaded;
