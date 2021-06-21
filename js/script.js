@@ -6,7 +6,7 @@ import { questionsData, loadQuestions } from './datas/questionsData.js';
  * Défini si on charge les questions enregistrées localement ou les questions de
  * l'API externe.
  */
-const local = true;
+const local = false;
 
 /**
  * Les questions sont soit récupérées localement à l'aide de questionsData, soit
